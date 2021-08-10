@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+    edc_dogger_django:
+        container_name: edc_dogger_django
+        build: .
+        volumes:
+            - .:/code
+            - ./docker/dogger/static:/code/static
+        env_file:
+            - .env
+
+    edc_dogger_nginx:
+        container_name: edc_dogger_nginx
+        image: nginx:alpine
+        volumes:
+            - ./docker/nginx/sites:/etc/nginx/conf.d
+            - ./docker/dogger/static:/code/static
+        ports:
+            - ${APP_PORT:-80}:80
+        depends_on:
+            - edc_dogger_django
+        environment:
+            - VIRTUAL_HOST=${SERVICE_DOGGER_DNS}
+            - LETSENCRYPT_HOST=${SERVICE_DOGGER_DNS}
+            - LETSENCRYPT_EMAIL=${SSL_LETSENCRYPT_EMAIL}
+
+networks:
+    default:
+        external:
+            name: edcNet
