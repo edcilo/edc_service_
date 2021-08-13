@@ -114,11 +114,11 @@ Auth: Bearer Token
 
 Endpoints correspondientes al crud de paseadores de perros
 
-* POST /api/v1/schedule/
-Registrar una hora de paseo
+* Registrar una hora de paseo
+```
+POST /api/v1/schedule/
 Auth: Bearer Token
 Body:
-```
 {
     "day": int,
     "start": int,
@@ -127,19 +127,23 @@ Body:
 }
 ```
 
-* GET /api/v1/schedule/
-Listar todas las horas de paseo
+* Listar todas las horas de paseo
+```
+GET /api/v1/schedule/
 Auth: Bearer Token
+```
 
-* GET /api/v1/schedule/{pk}/
-Ver detalle de una hora de paseo
+* Ver detalle de una hora de paseo
+```
+GET /api/v1/schedule/{pk}/
 Auth: Bearer Token
+```
 
-* PUT /api/v1/schedule/{pk}/
-Modificar una hora de paseo
+* Modificar una hora de paseo
+```
+PUT /api/v1/schedule/{pk}/
 Auth: Bearer Token
 Body:
-```
 {
     "day": int,
     "start": int,
@@ -148,6 +152,8 @@ Body:
 }
 ```
 
-* DELETE /api/v1/schedule/{pk}/
-Eliminar una hora de paseo
+* Eliminar una hora de paseo
+```
+DELETE /api/v1/schedule/{pk}/
 Auth: Bearer Token
+```
