@@ -28,3 +28,15 @@ class IsOwner(BasePermission):
             return 'user' in roles
         except KeyError:
             return False
+
+
+class IsWalker(BasePermission):
+    message = 'Access Forbidden'
+
+    def has_permission(self, request, view):
+        try:
+            user = request.data['jwt-payload']
+            roles = user['roles']
+            return 'walker' in roles
+        except KeyError:
+            return False

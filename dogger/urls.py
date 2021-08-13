@@ -7,6 +7,7 @@ app_name = 'dogger'
 
 router = DefaultRouter()
 router.register(r'dogs', views.DogsViewSet, basename='dogs')
+router.register(r'schedule', views.ScheduleViewSet, basename='schedule')
 
 urlpatterns = [
     path('api/v1/protected', views.protected, name='protected'),

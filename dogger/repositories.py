@@ -1,4 +1,5 @@
-from .models import Dog
+from django.http import Http404
+from .models import Dog, DogSize, WalkerScheduler
 
 
 class Repository(object):
@@ -27,3 +28,29 @@ class DogRepository(Repository):
             dog.delete()
             return True
         return False
+
+
+class WalkerScheduleRepository(Repository):
+    def __init__(self):
+        Repository.__init__(self, WalkerScheduler)
+
+    def lists(self, user_id):
+        return self.model.objects.filter(walker=user_id)
+
+    def find(self, user_id, hour_id):
+        walker =  self.model.objects.filter(walker=user_id, pk=hour_id).first()
+        if walker is None:
+            raise Http404
+        return walker
+
+    def update(self, user_id, hour_id, data):
+        sizes = DogSize.objects.filter(pk__in=data['sizes'])
+        fields = ('day', 'start', 'end')
+        data = {k: v for k, v in data.items() if k in fields}
+        hour = self.find(user_id, hour_id)
+        hour.sizes.set(sizes)
+        return self.model.objects.filter(walker=user_id, pk=hour_id).update(**data)
+
+    def delete(self, user_id, hour_id):
+        hour = self.find(user_id, hour_id)
+        hour.delete()
