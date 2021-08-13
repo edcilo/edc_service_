@@ -1,0 +1,147 @@
+# Dooger
+
+Prueba tecnica
+
+## Stack
+* Django
+* React
+
+## Descripción:
+Se está desarrollando una plataforma llamada “Dogger”. El objetivo de la app es conectar “dueños” de perros con “paseadores” de perros.
+
+## Funcionalidades mínimas esperadas:
+* Registrar usuarios “dueños”.
+* Registrar usuarios “paseadores”.
+* Un dueño puede registrar perros con su tamaño (Grande, Chico, Mediano).
+* Un dueño puede reservar a un paseador en específico.
+* Un dueño también puede pedir que alguien pasee a su perro en algún horario.
+* Un paseador puede tener un máximo de 3 perros al mismo tiempo.
+* Desde el punto de vista del paseador, puede recibir perros de múltiples dueños en cada reserva.
+* Un paseador puede definir horarios para pasear ciertos tamaños de perro (chico, mediano, grande o alguna combinación de estos).
+
+## Dependencias
+
+Esta prueba fue construida bajo una arquitectura de microservicios, por lo que es requerido un microservicio de usuarios el cual gestione la authorización de los usuarios finales, este debe hacer uso de jwt cuyo payload contenga los siguientes campos:
+
+```
+{
+    ...
+    "exp": epoch,
+    "user_id": uuid,
+    "roles": list of roles (owner, walker)
+    ...
+}
+```
+
+Se recomienda el uso del siguiente microservicio:
+
+* git@github.com:edcilo/edc_service_users.git
+
+## Instalación del servicio dogger
+
+1. Clonar repositorio
+```
+git clone git@github.com:edcilo/edc_service_dogger.git
+```
+
+2. Acceder al directorio del servicio
+```
+cd edc_service_dogger
+```
+
+3. Configurar variables de entorno
+```
+cp .env.example .env
+```
+
+4. Construir y ejecutar imagenes docker
+```
+docker-compose build
+docker-compose up
+```
+
+5. Crear super user
+```
+dcker-compose exec edc_dogger_django sh
+> python manage.py createsuperuser
+```
+
+6. Desde el navegador acceder a http://localhost:8001/admin/ y acceder como super user
+
+## Endpoints
+
+Endpoints correspondientes al crud de perros
+
+* POST /api/v1/dogs/
+Crear un nuevo registro de un perro
+Auth: Bearer Token
+Body:
+```
+{
+    "name": string,
+    "size": int
+}
+```
+
+* GET /api/v1/dogs/
+Listar todos los perros del usuario autorizado
+Auth: Bearer Token
+
+* POST /api/v1/dogs/{pk}/
+Ver el detalle de un perro
+Auth: Bearer Token
+
+* PUT /api/v1/dogs/{pk}/
+Modificar los datos de un perro
+Auth: Bearer Token
+Body:
+```
+{
+    "name": string,
+    "size": int
+}
+```
+
+* DELETE /api/v1/dogs/{pk}/
+Eliminar un registro de un perro
+Auth: Bearer Token
+
+Endpoints correspondientes al crud de paseadores de perros
+
+* POST /api/v1/schedule/
+Registrar una hora de paseo
+Auth: Bearer Token
+Body:
+```
+{
+    "day": int,
+    "start": int,
+    "end": int,
+    "sizes": list of dog size ids
+}
+```
+
+* GET /api/v1/schedule/
+Listar todas las horas de paseo
+Auth: Bearer Token
+
+* GET /api/v1/schedule/{pk}/
+Ver detalle de una hora de paseo
+Auth: Bearer Token
+
+* PUT /api/v1/schedule/{pk}/
+Modificar una hora de paseo
+Auth: Bearer Token
+Body:
+```
+{
+    "day": int,
+    "start": int,
+    "end": int,
+    "sizes": list of dog size ids
+}
+```
+
+* DELETE /api/v1/schedule/{pk}/
+Eliminar una hora de paseo
+Auth: Bearer Token
