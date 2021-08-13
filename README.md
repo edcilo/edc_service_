@@ -72,39 +72,45 @@ dcker-compose exec edc_dogger_django sh
 
 Endpoints correspondientes al crud de perros
 
-* POST /api/v1/dogs/
-Crear un nuevo registro de un perro
+* Crear un nuevo registro de un perro
+```
+POST /api/v1/dogs/
 Auth: Bearer Token
 Body:
-```
 {
     "name": string,
     "size": int
 }
 ```
 
-* GET /api/v1/dogs/
-Listar todos los perros del usuario autorizado
+* Listar todos los perros del usuario autorizado
+```
+GET /api/v1/dogs/
 Auth: Bearer Token
+```
 
-* POST /api/v1/dogs/{pk}/
-Ver el detalle de un perro
+* Ver el detalle de un perro
+```
+POST /api/v1/dogs/{pk}/
 Auth: Bearer Token
+```
 
-* PUT /api/v1/dogs/{pk}/
-Modificar los datos de un perro
+* Modificar los datos de un perro
+```
+PUT /api/v1/dogs/{pk}/
 Auth: Bearer Token
 Body:
-```
 {
     "name": string,
     "size": int
 }
 ```
 
-* DELETE /api/v1/dogs/{pk}/
-Eliminar un registro de un perro
+* Eliminar un registro de un perro
+```
+DELETE /api/v1/dogs/{pk}/
 Auth: Bearer Token
+```
 
 Endpoints correspondientes al crud de paseadores de perros
 
