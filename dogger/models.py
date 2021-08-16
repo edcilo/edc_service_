@@ -40,3 +40,21 @@ class WalkerScheduler(models.Model):
 
     def __str__(self):
         return '%s %s - %s' % (self.day, self.start, self.end)
+
+
+class Reservation(models.Model):
+    class Status(models.TextChoices):
+        OPEN = 0, 'open'
+        COMPLETE = 1, 'complete'
+        CANCELED = 2, 'canceled'
+
+    id = models.BigAutoField(primary_key=True)
+    status = models.IntegerField(choices=Status.choices, default=Status.OPEN)
+    owner = models.UUIDField()
+    walker = models.UUIDField()
+    dog = models.ForeignKey(Dog, on_delete=models.CASCADE, related_name='dog')
+    schedule = models.ForeignKey(WalkerScheduler, on_delete=models.CASCADE, related_name='schedule')
+    date = models.DateField()
+
+    def __str__(self):
+        return self.status
