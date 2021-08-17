@@ -14,10 +14,12 @@ reservation_repo = ReservationRepository()
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthorized])
-def protected(request):
-    print('>>>>>>>>>>>', request.data)
-    return Response(request.data['jwt-decode-data'])
+@permission_classes([IsAuthorized, IsOwner])
+def walker_schedules(request):
+    walker = request.GET.get('walker')
+    schedule = walker_scheduler_repo.lists(walker)
+    serializer = serializers.ScheduleModelSerializer(schedule, many=True)
+    return Response(serializer.data)
 
 
 class DogsViewSet(viewsets.ViewSet):

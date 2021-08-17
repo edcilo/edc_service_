@@ -11,6 +11,6 @@ router.register(r'schedule', views.ScheduleViewSet, basename='schedule')
 router.register(r'reservation', views.ReservationViewSet, basename='reservation')
 
 urlpatterns = [
-    path('api/v1/protected', views.protected, name='protected'),
+    path('api/v1/walker/schedule/', views.walker_schedules, name='walker_schedules'),
     path('api/v1/', include(router.urls)),
 ]
